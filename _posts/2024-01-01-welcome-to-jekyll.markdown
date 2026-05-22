@@ -1,29 +1,41 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "Getting Started with Jekyll"
 date:   2024-01-01 00:00:00 +0000
-categories: jekyll update
+categories: development jekyll
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-Jekyll requires blog post files to be named according to the following format:
+Welcome to my first blog post! I'm excited to share my journey with Jekyll and GitHub Pages.
 
-`YEAR-MONTH-DAY-title.MARKUP`
+## Why Jekyll?
 
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+Jekyll is a static site generator that transforms plain text into beautiful static websites. Here are some reasons why I chose it:
 
-Jekyll also offers powerful support for code snippets:
+- **Simple** - No database required
+- **Fast** - Static sites load quickly
+- **Secure** - No server-side vulnerabilities
+- **GitHub Pages** - Perfect integration for hosting
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
+## My Setup
+
+I'm using:
+- Jekyll 4.2.2
+- Minima theme (customized)
+- Docker for local development
+- GitHub Actions for CI/CD
+
+## Code Snippet
+
+Here's a quick example of how to create a Jekyll post:
+
+{% highlight bash %}
+jekyll new my-blog
+cd my-blog
+bundle exec jekyll serve
 {% endhighlight %}
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+## What's Next?
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+I'll be sharing more about web development, programming tips, and my projects. Stay tuned!
+
+Let me know what you think in the comments below!

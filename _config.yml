@@ -1,15 +1,25 @@
-title: My Jekyll Site
-email: your-email@example.com
+title: Aidan's Personal Site
+email: aidan@example.com
 description: >-
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Welcome to my personal website! I'm Aidan, a passionate developer and tech enthusiast.
 baseurl: ""
-url: ""
-twitter_username: jekyllrb
-github_username:  jekyll
+url: "https://aidan0712.github.io"
+twitter_username: aidan0712
+github_username: Aidan0712
+author: Aidan
 
 theme: minima
 
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
+
+# 导航链接
+header_pages:
+  - index.md
+  - about.md
+
+# 社交链接
+social_links:
+  github: Aidan0712
+  twitter: aidan0712
