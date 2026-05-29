@@ -12,7 +12,7 @@
     <link href="https://aidan0712.github.io/ml-mnist-nn"/>
     <updated>2026-04-27T00:00:00+08:00</updated>
     <id>https://aidan0712.github.io/ml-mnist-nn</id>
-    <content type="html">使用PyTorch构建三层全连接神经网络，完成MNIST手写数字识别任务，准确率达到93%。</content>
+    <content type="html">使用PyTorch构建三层全连接神经网络，完成MNIST手写数字识别任务。</content>
   </entry>
   <entry>
     <title>创新实验：使用 Jekyll + GitHub Pages 搭建个人博客</title>
