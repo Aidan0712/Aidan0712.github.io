@@ -1,123 +1,237 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="zh-CN">
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Welcome to My Personal Site | My Jekyll Site</title>
-<meta name="generator" content="Jekyll v4.2.2" />
-<meta property="og:title" content="Welcome to My Personal Site" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
-<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
-<link rel="canonical" href="http://0.0.0.0:4000/" />
-<meta property="og:url" content="http://0.0.0.0:4000/" />
-<meta property="og:site_name" content="My Jekyll Site" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Welcome to My Personal Site" />
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"Welcome to My Personal Site","name":"My Jekyll Site","url":"http://0.0.0.0:4000/"}</script>
-<!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://0.0.0.0:4000/feed.xml" title="My Jekyll Site" /></head>
-<body><header class="site-header" role="banner">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aidan 的博客</title>
+  <meta name="description" content="记录课程学习、实验过程与技术探索，做一个持续成长的计算机专业学生。">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4a90d9;
+      --secondary-color: #357abd;
+      --bg-dark: #1a1a2e;
+      --bg-card: #252542;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #16213e 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .site-header {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+    .site-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+    .site-title::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 8px;
+      margin-right: 12px;
+      vertical-align: middle;
+    }
+    .site-description {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      color: white;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0 10px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(74, 144, 217, 0.4);
+      color: white;
+      text-decoration: none;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0 10px;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .arrow-down {
+      margin-top: 4rem;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-title h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .section-title p {
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+    .post-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .post-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      border-color: rgba(74, 144, 217, 0.3);
+    }
+    .post-category {
+      display: inline-block;
+      background: rgba(74, 144, 217, 0.2);
+      color: var(--primary-color);
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+    .post-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      transition: color 0.3s ease;
+    }
+    .post-title:hover {
+      color: var(--primary-color);
+    }
+    .post-meta {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .post-excerpt {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .read-more {
+      color: var(--primary-color);
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .read-more:hover {
+      text-decoration: none;
+      transform: translateX(5px);
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-secondary);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 4rem;
+    }
+    .social-icons {
+      margin-top: 1rem;
+    }
+    .social-icons a {
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: var(--primary-color);
+    }
+    @media (max-width: 768px) {
+      .site-header { padding: 4rem 1rem 3rem; }
+      .site-title { font-size: 2rem; }
+      .site-description { font-size: 1.1rem; }
+      .btn-primary, .btn-outline { display: block; margin: 10px auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-header">
+    <h1 class="site-title">Aidan 的博客</h1>
+    <p class="site-description">记录课程学习、实验过程与技术探索，做一个持续成长的计算机专业学生。</p>
+    <div class="mt-4">
+      <a href="/about" class="btn-primary">了解更多</a>
+      <a href="https://github.com/Aidan0712" class="btn-outline" target="_blank">
+        <i class="fab fa-github"></i> GitHub ↗
+      </a>
+    </div>
+    <div class="arrow-down">
+      <i class="fas fa-chevron-down text-white-50" style="font-size: 2rem;"></i>
+    </div>
+  </div>
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/">My Jekyll Site</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
+  <div class="container">
+    <div class="section-title">
+      <h2>最新文章</h2>
+      <p>分享学习笔记与实验心得</p>
+    </div>
 
-        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/">Welcome to My Personal Site</a></div>
-      </nav></div>
-</header>
-<main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <div class="home"><h1 class="page-heading">Welcome to My Personal Site</h1><div class="home-section">
-  <img src="https://neeko-copilot.bytedance.net/api/text_to_image?prompt=professional%20portrait%20photo%20of%20a%20young%20asian%20developer%20with%20glasses%20smiling%20in%20modern%20office%2C%20clean%20background%2C%20professional%20lighting&amp;image_size=square" alt="Aidan" class="avatar" />
-  
-  <h1>Hi, I'm Aidan</h1>
-  
-  <p class="lead" style="font-size: 1.3rem; color: #666; margin: 1.5rem 0;">
-    A passionate Full-Stack Developer and Tech Enthusiast
-  </p>
-  
-  <p style="max-width: 600px; margin: 0 auto 2rem;">
-    I love building innovative web applications and exploring new technologies. 
-    Currently focused on creating beautiful, functional, and scalable solutions.
-  </p>
-  
-  <a href="/about" class="btn btn-primary">Learn More About Me</a>
-</div>
-
-<hr style="margin: 3rem 0;" />
-
-<h2 id="featured-projects">Featured Projects</h2>
-
-<div class="row">
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <h3 class="card-title">Project One</h3>
-        <p class="card-text">A modern web application with React and Node.js backend.</p>
-        <a href="#" class="btn btn-outline-primary btn-sm">View Project</a>
+    <div class="row">
+      <div class="col-md-12">
+        <article class="post-card">
+          <span class="post-category">实验记录</span>
+          <h3 class="post-title"><a href="/jekyll-blog" style="color: inherit; text-decoration: none;">创新实验：使用 Jekyll + GitHub Pages 搭建个人博客</a></h3>
+          <div class="post-meta">
+            <i class="far fa-calendar"></i> 2026年05月29日
+          </div>
+          <p class="post-excerpt">这是创新实验第13周的 Jekyll 收尾任务，目标是将 Jekyll 项目推送到 GitHub，并通过 GitHub Pages 实现公网访问。</p>
+          <a href="/jekyll-blog" class="read-more">阅读全文 →</a>
+        </article>
       </div>
     </div>
   </div>
-  
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <h3 class="card-title">Project Two</h3>
-        <p class="card-text">Data visualization dashboard with D3.js and Python.</p>
-        <a href="#" class="btn btn-outline-primary btn-sm">View Project</a>
-      </div>
-    </div>
-  </div>
-  
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <h3 class="card-title">Project Three</h3>
-        <p class="card-text">Mobile-first e-commerce platform with Vue.js.</p>
-        <a href="#" class="btn btn-outline-primary btn-sm">View Project</a>
-      </div>
-    </div>
-  </div>
-</div>
 
-<hr style="margin: 3rem 0;" />
-
-<h2 id="latest-posts">Latest Posts</h2>
-
-<div class="row">
-  
-</div>
-</div>
-
-      </div>
-    </main><footer class="page-footer">
-  <div class="container text-center">
-    <p>&copy; 2026 . All rights reserved.</p>
-    
+  <footer>
+    <p>&copy; 2026 Aidan. 做一个持续成长的计算机专业学生。</p>
     <div class="social-icons">
-      <a href="https://github.com/jekyll" class="social-icon" target="_blank">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://twitter.com/jekyllrb" class="social-icon" target="_blank">
-        <i class="fab fa-twitter"></i>
-      </a>
+      <a href="https://github.com/Aidan0712" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://twitter.com/aidan0712" target="_blank"><i class="fab fa-twitter"></i></a>
     </div>
-  </div>
-</footer>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </footer>
 </body>
-
 </html>

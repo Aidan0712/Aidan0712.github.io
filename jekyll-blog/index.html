@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>创新实验：使用 Jekyll + GitHub Pages 搭建个人博客 - Aidan 的博客</title>
+  <meta name="description" content="这是创新实验第13周的 Jekyll 收尾任务，目标是将 Jekyll 项目推送到 GitHub，并通过 GitHub Pages 实现公网访问。">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4a90d9;
+      --secondary-color: #357abd;
+      --bg-dark: #1a1a2e;
+      --bg-card: #252542;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #16213e 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      color: white;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0 10px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(74, 144, 217, 0.4);
+      color: white;
+      text-decoration: none;
+    }
+    .bg-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+    .post-category {
+      display: inline-block;
+      background: rgba(74, 144, 217, 0.2);
+      color: var(--primary-color);
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-secondary);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 4rem;
+    }
+    .social-icons {
+      margin-top: 1rem;
+    }
+    .social-icons a {
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: var(--primary-color);
+    }
+    code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #ffd700;
+    }
+    pre {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <span class="post-category">实验记录</span>
+        <h1 style="color: #ffffff; margin-bottom: 1rem;">创新实验：使用 Jekyll + GitHub Pages 搭建个人博客</h1>
+        <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 2rem;">
+          <i class="far fa-calendar"></i> 2026年05月29日
+        </div>
+        
+        <div class="bg-card">
+          <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+            这是创新实验第13周的 Jekyll 收尾任务，目标是将 Jekyll 项目推送到 GitHub，并通过 GitHub Pages 实现公网访问。
+          </p>
+
+          <h2 style="color: #4a90d9; margin-top: 2rem; margin-bottom: 1rem;">实验目标</h2>
+          <ul style="color: rgba(255, 255, 255, 0.7); line-height: 1.8; margin-left: 1.5rem;">
+            <li>配置 Jekyll 项目的 GitHub Actions 自动化部署</li>
+            <li>创建 gh-pages 分支存放编译后的静态文件</li>
+            <li>实现代码提交后自动构建部署</li>
+          </ul>
+
+          <h2 style="color: #4a90d9; margin-top: 2rem; margin-bottom: 1rem;">实现步骤</h2>
+
+          <h3 style="color: #ffffff; margin-top: 1.5rem; margin-bottom: 0.5rem;">1. 配置 GitHub Actions</h3>
+          <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+            创建 <code>.github/workflows/jekyll-gh-pages.yml</code> 配置文件，实现自动化构建和部署。
+          </p>
+
+          <h3 style="color: #ffffff; margin-top: 1.5rem; margin-bottom: 0.5rem;">2. 创建 gh-pages 分支</h3>
+          <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+            使用 orphan 分支创建一个干净的分支用于存放编译后的网站文件。
+          </p>
+
+          <h3 style="color: #ffffff; margin-top: 1.5rem; margin-bottom: 0.5rem;">3. 配置仓库设置</h3>
+          <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+            在 GitHub 仓库设置中指定 Pages 的源为 gh-pages 分支。
+          </p>
+
+          <h2 style="color: #4a90d9; margin-top: 2rem; margin-bottom: 1rem;">遇到的问题</h2>
+          <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+            在配置过程中遇到了一些问题，主要包括：
+          </p>
+          <ul style="color: rgba(255, 255, 255, 0.7); line-height: 1.8; margin-left: 1.5rem;">
+            <li>权限问题导致无法在容器内创建文件</li>
+            <li>GitHub Actions 部署路径配置错误</li>
+            <li>gh-pages 分支缺少必要的文件</li>
+          </ul>
+          <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+            通过逐步排查和调试，最终成功解决了所有问题。
+          </p>
+
+          <h2 style="color: #4a90d9; margin-top: 2rem; margin-bottom: 1rem;">总结</h2>
+          <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+            通过本次实验，我掌握了：
+          </p>
+          <ul style="color: rgba(255, 255, 255, 0.7); line-height: 1.8; margin-left: 1.5rem;">
+            <li>Jekyll 项目的 Docker 化开发</li>
+            <li>GitHub Actions 自动化部署流程</li>
+            <li>GitHub Pages 的配置和使用</li>
+          </ul>
+          <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.8;">
+            这是一个非常有价值的学习经历！
+          </p>
+        </div>
+
+        <div class="text-center mt-6">
+          <a href="/" class="btn-primary">返回首页</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Aidan. 做一个持续成长的计算机专业学生。</p>
+    <div class="social-icons">
+      <a href="https://github.com/Aidan0712" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://twitter.com/aidan0712" target="_blank"><i class="fab fa-twitter"></i></a>
+    </div>
+  </footer>
+</body>
+</html>
