@@ -1,7 +1,7 @@
-title: Aidan's Personal Site
+title: Aidan 的博客
 email: aidan@example.com
 description: >-
-  Welcome to my personal website! I'm Aidan, a passionate developer and tech enthusiast.
+  记录课程学习、实验过程与技术探索，做一个持续成长的计算机专业学生。
 baseurl: ""
 url: "https://aidan0712.github.io"
 twitter_username: aidan0712
@@ -14,12 +14,10 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
-# 导航链接
 header_pages:
   - index.md
   - about.md
 
-# 社交链接
 social_links:
   github: Aidan0712
   twitter: aidan0712
