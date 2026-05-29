@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>模式识别实验：感知器算法 - Aidan 的博客</title>
+  <meta name="description" content="使用MATLAB实现感知器算法，完成线性分类任务">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #ff4757;
+      --secondary-color: #ff6b81;
+      --accent-color: #ffa502;
+      --bg-dark: #1a0a0a;
+      --bg-card: #2d1515;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #2a0f0f 50%, #1a0505 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      color: white;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0 10px;
+      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 71, 87, 0.6);
+      color: white;
+      text-decoration: none;
+    }
+    .bg-card {
+      background: linear-gradient(145deg, var(--bg-card), rgba(45, 21, 21, 0.8));
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .post-category {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.3), rgba(255, 107, 129, 0.2));
+      color: var(--secondary-color);
+      padding: 4px 14px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid rgba(255, 71, 87, 0.3);
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-secondary);
+      border-top: 1px solid rgba(255, 71, 87, 0.2);
+      margin-top: 4rem;
+    }
+    .social-icons {
+      margin-top: 1rem;
+    }
+    .social-icons a {
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: var(--primary-color);
+    }
+    pre {
+      background: rgba(45, 21, 21, 0.8);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 12px;
+      padding: 1.2rem;
+      overflow-x: auto;
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+      color: var(--text-secondary);
+    }
+    .result-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+    .result-table th {
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.3), rgba(255, 107, 129, 0.2));
+      color: var(--secondary-color);
+      padding: 12px;
+      text-align: left;
+      border: 1px solid rgba(255, 71, 87, 0.2);
+    }
+    .result-table td {
+      padding: 12px;
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      color: var(--text-secondary);
+    }
+    .highlight {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <span class="post-category">🔥 实验记录</span>
+        <h1 style="color: #ffffff; margin-bottom: 1rem; font-size: 1.8rem;">模式识别实验：感知器算法实现</h1>
+        <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 2rem;">
+          <i class="far fa-calendar"></i> 2026年05月18日 | 📚 课程：模式识别实验 | 👤 Aidan
+        </div>
+        
+        <div class="bg-card">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">🧠 一、实验内容</h2>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            使用MATLAB编程环境，实现感知器算法并进行实验。主要包括两部分：
+          </p>
+          <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+            <li><strong>基础实验：</strong>运行示例程序，对手写的二维训练样本进行分类</li>
+            <li><strong>拓展实验：</strong>采用Iris数据集中的两类数据进行感知器分类实验</li>
+          </ul>
+        </div>
+
+        <div class="bg-card mt-4">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">📊 二、实验结果</h2>
+          
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">1. 二维样本分类实验</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            通过运行demo_4.m文件，对四个二维训练样本进行分类，得到以下结果：
+          </p>
+          <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+            <li><strong>线性判别函数：</strong>d(X) = −2x₁ + 1</li>
+            <li><strong>决策面：</strong>x₁ = 0.5</li>
+            <li><strong>增广权向量w：</strong>[-2, 0, 1]</li>
+            <li><strong>迭代更新次数：</strong>5次</li>
+          </ul>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1rem;">
+            <strong>分布图与决策面图：</strong>决策面 x₁ = 0.5 将二维空间划分为两个区域，实现了两类样本的线性分离。
+          </p>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">2. Iris数据集分类实验</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            采用Iris数据集中的iris-setosa和iris-versicolor两类数据进行实验，分别取修正系数c=1和c=0.5：
+          </p>
+          <table class="result-table">
+            <tr>
+              <th>修正系数 c</th>
+              <th>增广权向量 w</th>
+              <th>迭代更新次数</th>
+            </tr>
+            <tr>
+              <td>c = 1</td>
+              <td>[1.3, 4.1, -5.2, -2.2, 1]</td>
+              <td>5次</td>
+            </tr>
+            <tr>
+              <td>c = 0.5</td>
+              <td>[0.65, 2.05, -2.6, -1.1, 0.5]</td>
+              <td>5次</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bg-card mt-4">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">💡 三、问题回答</h2>
+          
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">1. 感知器算法的实现步骤</h3>
+          <ol style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+            <li><strong>初始化：</strong>设置训练样本矩阵、类别标签、初始增广权向量以及修正系数。</li>
+            <li><strong>增广处理：</strong>在每个样本后添加常数项1，将偏置项统一并入权向量计算。</li>
+            <li><strong>遍历分类：</strong>依次遍历所有训练样本，利用当前权向量计算分类结果，判断样本是否被正确分类。</li>
+            <li><strong>权向量修正：</strong>当样本被误分类时，按照感知器学习规则更新权向量，并记录更新次数。</li>
+            <li><strong>迭代终止：</strong>完成一轮遍历后，若仍存在误分类样本则继续迭代；若所有样本均被正确分类，则算法停止。</li>
+          </ol>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">2. 修正系数c对权向量的影响分析</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            通过对比c=1和c=0.5时的实验结果可以发现：当修正系数减小为原来的一半后，最终得到的增广权向量各个分量也恰好缩小为原来的一半。
+          </p>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            <strong>结论：</strong>修正系数直接影响感知器算法中权向量每次更新的步长大小。较大的修正系数会使权向量更新幅度更大，最终权向量数值也更大；较小的修正系数则使权向量更新更加平缓，最终权向量整体数值相对较小。
+          </p>
+        </div>
+
+        <div class="bg-card mt-4">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">🔧 四、实验代码</h2>
+          
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">1. 主程序代码</h3>
+          <pre><code>close all;
+clear all;
+clc;
+
+% 读取原始数据
+[attrib1, attrib2, attrib3, attrib4, class] = ...
+textread('iris.data', '%f%f%f%f%s', 'delimiter', ',');
+X = [attrib1, attrib2, attrib3, attrib4];
+label_set = char('Iris-setosa', 'Iris-versicolor', 'Iris-virginica');
+label = zeros(150,1);
+label(strcmp(class,'Iris-setosa')) = 1;
+label(strcmp(class,'Iris-versicolor')) = 2;
+label(strcmp(class,'Iris-virginica')) = 3;
+
+% 只保留setosa和versicolor两类数据，令setosa为正类versicolor为负类
+X(label==3,:) = [];
+label(label==3) = [];
+label(label==2) = -1;
+classes = label;
+
+% 初始增广权向量
+w0 = [0 0 0 0 0];
+
+%% 修正系数 c = 1
+c = 1;
+[w1, k1] = PA(X, w0, c, classes);
+fprintf('当c=1时：\n');
+fprintf('w = [%g %g %g %g %g]\n', w1(1), w1(2), w1(3), w1(4), w1(5));
+fprintf('迭代更新次数 k = %d\n\n', k1);
+
+%% 修正系数 c = 0.5
+c = 0.5;
+[w2, k2] = PA(X, w0, c, classes);
+fprintf('当c=0.5时：\n');
+fprintf('w = [%g %g %g %g %g]\n', w2(1), w2(2), w2(3), w2(4), w2(5));
+fprintf('迭代更新次数 k = %d\n', k2);</code></pre>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">2. PA子函数代码</h3>
+          <pre><code>%====================== PA子函数 ======================%
+% X        : 训练样本矩阵
+% w0       : 初始增广权向量
+% c        : 修正系数
+% classes  : 样本类别
+function [w,k] = PA(X,w0,c,classes)
+    [m, n] = size(X);
+    % 增广样本矩阵
+    Y = [X ones(m,1)];
+    % 初始化权向量
+    w = w0;
+    % 迭代次数
+    k = 0;
+    while 1
+        flag = 1;
+        for i = 1:m
+            % 判断当前样本是否被误分类
+            if classes(i) * (w * Y(i,:)') <= 0
+                % 更新权向量
+                w = w + c * classes(i) * Y(i,:);
+                % 更新次数加1
+                k = k + 1;
+                flag = 0;
+            end
+        end
+        % 若全部分类正确则停止
+        if flag == 1
+            break;
+        end
+    end
+end</code></pre>
+        </div>
+
+        <div class="bg-card mt-4">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">📝 五、实验总结</h2>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            本次实验成功实现了感知器算法，通过两个实验验证了算法的有效性。感知器算法作为最简单的神经网络模型，能够解决线性可分的分类问题。实验结果表明，修正系数c会影响权向量的收敛速度和最终取值，但不会影响算法的收敛性（在数据线性可分的前提下）。
+          </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+          <a href="/" class="btn-primary">← 返回首页</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>🎸 用热爱点燃代码的热情 | 做一个持续成长的智能科学与技术专业学生</p>
+    <div class="social-icons">
+      <a href="https://github.com/Aidan0712" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+  </footer>
+</body>
+</html>

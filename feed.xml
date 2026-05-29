@@ -15,6 +15,13 @@
     <content type="html">使用PyTorch构建三层全连接神经网络，完成MNIST手写数字识别任务。</content>
   </entry>
   <entry>
+    <title>模式识别实验：感知器算法实现</title>
+    <link href="https://aidan0712.github.io/perceptron-algorithm"/>
+    <updated>2026-05-18T00:00:00+08:00</updated>
+    <id>https://aidan0712.github.io/perceptron-algorithm</id>
+    <content type="html">使用MATLAB实现感知器算法，对Iris数据集进行分类实验，分析修正系数对权向量的影响。</content>
+  </entry>
+  <entry>
     <title>创新实验：使用 Jekyll + GitHub Pages 搭建个人博客</title>
     <link href="https://aidan0712.github.io/jekyll-blog"/>
     <updated>2026-05-29T10:00:00+08:00</updated>
