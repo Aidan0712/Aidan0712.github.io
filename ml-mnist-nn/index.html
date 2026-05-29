@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器学习实验：前馈神经网络 - Aidan 的博客</title>
+  <meta name="description" content="使用PyTorch构建三层全连接神经网络，完成MNIST手写数字识别任务">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #ff4757;
+      --secondary-color: #ff6b81;
+      --accent-color: #ffa502;
+      --bg-dark: #1a0a0a;
+      --bg-card: #2d1515;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #2a0f0f 50%, #1a0505 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      color: white;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0 10px;
+      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 71, 87, 0.6);
+      color: white;
+      text-decoration: none;
+    }
+    .bg-card {
+      background: linear-gradient(145deg, var(--bg-card), rgba(45, 21, 21, 0.8));
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .post-category {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.3), rgba(255, 107, 129, 0.2));
+      color: var(--secondary-color);
+      padding: 4px 14px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid rgba(255, 71, 87, 0.3);
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-secondary);
+      border-top: 1px solid rgba(255, 71, 87, 0.2);
+      margin-top: 4rem;
+    }
+    .social-icons {
+      margin-top: 1rem;
+    }
+    .social-icons a {
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      margin: 0 12px;
+      transition: all 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: var(--primary-color);
+      transform: scale(1.2);
+    }
+    code {
+      background: rgba(255, 71, 87, 0.2);
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: var(--accent-color);
+      font-size: 0.9em;
+    }
+    pre {
+      background: rgba(45, 21, 21, 0.8);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      border-radius: 12px;
+      padding: 1.2rem;
+      overflow-x: auto;
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+      color: var(--text-secondary);
+    }
+    .result-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+    .result-table th {
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.3), rgba(255, 107, 129, 0.2));
+      color: var(--secondary-color);
+      padding: 12px;
+      text-align: left;
+      border: 1px solid rgba(255, 71, 87, 0.2);
+    }
+    .result-table td {
+      padding: 12px;
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      color: var(--text-secondary);
+    }
+    .highlight {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <span class="post-category">🔥 实验记录</span>
+        <h1 style="color: #ffffff; margin-bottom: 1rem; font-size: 1.8rem;">机器学习实验：前馈神经网络实现MNIST手写数字识别</h1>
+        <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 2rem;">
+          <i class="far fa-calendar"></i> 2026年04月27日 | 📚 课程：机器学习实验 | 👤 孙晨恩
+        </div>
+        
+        <div class="bg-card">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">📋 实验信息</h2>
+          <table class="result-table">
+            <tr>
+              <td><strong>学校</strong></td>
+              <td>云南大学</td>
+            </tr>
+            <tr>
+              <td><strong>学期</strong></td>
+              <td>2026年春季学期</td>
+            </tr>
+            <tr>
+              <td><strong>年级</strong></td>
+              <td>2023级</td>
+            </tr>
+            <tr>
+              <td><strong>专业</strong></td>
+              <td>智能科学与技术</td>
+            </tr>
+            <tr>
+              <td><strong>学号</strong></td>
+              <td>20231060133</td>
+            </tr>
+            <tr>
+              <td><strong>姓名</strong></td>
+              <td>孙晨恩</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="bg-card mt-4">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">🧠 一、实验步骤及关键代码</h2>
+          
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">1. 数据集加载和预处理</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+            使用 <code>torchvision</code> 库下载 MNIST 数据集中的训练集和测试集，并完成预处理：
+          </p>
+          <pre><code>preprocess = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+
+train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=preprocess)
+test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=preprocess)
+
+train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)</code></pre>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">2. 神经网络构建</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+            扩展 <code>torch.nn.Module</code>，构建三层全连接神经网络：
+          </p>
+          <pre><code>class MyNeuralNet(nn.Module):
+    def __init__(self):
+        super(MyNeuralNet, self).__init__()
+        self.flatten = nn.Flatten()
+        self.fc1 = nn.Linear(784, 256)
+        self.fc2 = nn.Linear(256, 128)
+        self.fc3 = nn.Linear(128, 10)
+        self.relu = nn.ReLU()
+    
+    def forward(self, x):
+        y = self.flatten(x)
+        y = self.relu(self.fc1(y))
+        y = self.relu(self.fc2(y))
+        y = self.fc3(y)
+        return y</code></pre>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">3. 损失函数和优化器</h3>
+          <pre><code>criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.01)</code></pre>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">4. 模型训练</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+            完成误差逆传播的代码实现，并使用 TensorBoard 记录 loss 值变化：
+          </p>
+          <pre><code>optimizer.zero_grad()  # 清除之前迭代中的梯度参数
+loss.backward()         # 根据当前损失计算网络中每个可训练参数的梯度
+optimizer.step()        # 优化器根据计算出的梯度更新模型参数
+
+writer.add_scalar("Loss", loss, epoch * len(dataloader) + batch)</code></pre>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">5. 模型评估</h3>
+          <pre><code>test(test_loader, model)</code></pre>
+        </div>
+
+        <div class="bg-card mt-4">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">📊 二、实验结果及分析</h2>
+          
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">模型性能评估结果</h3>
+          <table class="result-table">
+            <tr>
+              <th>评估指标</th>
+              <th>数值</th>
+            </tr>
+            <tr>
+              <td><span class="highlight">Accuracy</span></td>
+              <td><span class="highlight">93.0%</span></td>
+            </tr>
+            <tr>
+              <td><span class="highlight">Avg loss</span></td>
+              <td><span class="highlight">0.0038</span></td>
+            </tr>
+          </table>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">实验结果分析</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            在本实验中，构建了一个三层全连接神经网络用于 MNIST 手写数字识别任务，并利用 TensorBoard 对训练过程中的损失变化进行可视化分析。从训练结果来看：
+          </p>
+          <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-top: 1rem;">
+            <li>模型的 <span class="highlight">loss 随着训练轮数的增加整体呈现稳定下降趋势</span>，说明模型能够逐步学习数据中的有效特征并不断优化参数</li>
+            <li>在训练初期，loss 下降较快，表明模型能够迅速拟合数据中的基础模式</li>
+            <li>随着训练的进行，loss 下降速度逐渐减缓并趋于平稳，说明模型逐渐收敛并达到较优的参数状态</li>
+            <li>整体训练过程较为平滑，没有出现明显的震荡现象，表明学习率设置合理</li>
+          </ul>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1rem;">
+            从最终实验结果来看，模型在测试集上的准确率达到了 <span class="highlight">93.0%</span>，说明该简单的全连接神经网络能够较好地完成手写数字分类任务。同时，模型在测试集上的平均损失为 <span class="highlight">0.0038</span>，表明模型在测试数据上的预测误差较小。
+          </p>
+        </div>
+
+        <div class="bg-card mt-4">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">💡 三、探究与思考</h2>
+          
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">1. 预处理代码的功能</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            <strong>功能：</strong>对 MNIST 图像数据进行预处理，先转换为张量格式，再进行标准化。
+          </p>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 0.5rem;">
+            <strong>两个 0.5 的含义：</strong>
+          </p>
+          <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+            <li>第一个 <code>0.5</code> 是均值</li>
+            <li>第二个 <code>0.5</code> 是标准差</li>
+          </ul>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 0.5rem;">
+            根据标准化公式 <code>(x - mean) / std</code>，将像素值从 [0,1] 映射到 [-1,1] 区间，有助于模型更快收敛。
+          </p>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">2. DataLoader 的作用</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            DataLoader 将数据集包装成<strong>可迭代对象</strong>，实现<strong>批量加载数据</strong>、<strong>自动打乱顺序</strong>以及<strong>多进程并行读取</strong>，提高训练效率并方便对数据进行批次处理。
+          </p>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">3. 输入层和输出层的神经元数量</h3>
+          <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+            <li><strong>输入层：784 个神经元</strong> — MNIST 图像大小为 28×28=784 像素，每个像素作为输入特征</li>
+            <li><strong>输出层：10 个神经元</strong> — 手写数字识别是 10 分类问题（数字 0~9），每个神经元对应一个类别的输出概率</li>
+          </ul>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">4. 损失函数的选择</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            本实验使用 <span class="highlight">交叉熵损失（CrossEntropyLoss）</span>。
+          </p>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 0.5rem;">
+            <strong>原因：</strong>本实验是多分类任务，交叉熵损失能衡量预测概率分布与真实标签之间的差异，配合 softmax 可有效优化分类模型。
+          </p>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">5. 误差逆传播代码解析</h3>
+          <pre><code>optimizer.zero_grad()  # 清除之前迭代中保留的梯度参数，防止梯度累加
+loss.backward()         # 根据当前损失计算网络中每个可训练参数的梯度
+optimizer.step()       # 优化器根据计算出的梯度更新模型参数</code></pre>
+
+          <h3 style="color: var(--accent-color); margin: 1.5rem 0 1rem;">6. 预测正确数量的代码解析</h3>
+          <pre><code>(pred.argmax(1) == y).type(torch.float).sum().item()</code></pre>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1rem;">
+            <strong>整体功能：</strong>统计当前批次中预测正确的样本数量
+          </p>
+          <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-top: 0.5rem;">
+            <li><code>pred.argmax(1)</code> — 对模型输出在类别维度取最大值的索引，得到预测类别标签</li>
+            <li><code>== y</code> — 与真实标签进行比较，输出布尔值</li>
+            <li><code>.type(torch.float)</code> — 将布尔值转为浮点数 1 和 0</li>
+            <li><code>.sum()</code> — 求和，得到正确预测的数量</li>
+            <li><code>.item()</code> — 将该张量转换为 Python 基本量</li>
+          </ul>
+        </div>
+
+        <div class="bg-card mt-4">
+          <h2 style="color: var(--primary-color); margin-bottom: 1rem;">🎯 总结</h2>
+          <p style="color: var(--text-secondary); line-height: 1.8;">
+            通过本次实验，我掌握了使用 PyTorch 构建前馈神经网络的基本方法，包括：
+          </p>
+          <ul style="color: var(--text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-top: 1rem;">
+            <li>MNIST 数据集的加载和预处理</li>
+            <li>三层全连接神经网络的构建</li>
+            <li>模型的训练和评估流程</li>
+            <li>TensorBoard 的使用方法</li>
+            <li>误差逆传播的原理和实现</li>
+          </ul>
+          <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 1rem;">
+            最终模型达到了 <span class="highlight">93.0%</span> 的准确率，验证了前馈神经网络在图像分类任务上的有效性。🔥
+          </p>
+        </div>
+
+        <div class="text-center mt-6">
+          <a href="/" class="btn-primary">🏠 返回首页</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>🎸 用热爱点燃代码的热情 | 做一个持续成长的计算机专业学生</p>
+    <div class="social-icons">
+      <a href="https://github.com/Aidan0712" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://twitter.com/aidan0712" target="_blank"><i class="fab fa-twitter"></i></a>
+    </div>
+  </footer>
+</body>
+</html>

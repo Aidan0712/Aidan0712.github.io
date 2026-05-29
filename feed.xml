@@ -8,6 +8,13 @@
     <name>Aidan</name>
   </author>
   <entry>
+    <title>机器学习实验：前馈神经网络实现MNIST手写数字识别</title>
+    <link href="https://aidan0712.github.io/ml-mnist-nn"/>
+    <updated>2026-04-27T00:00:00+08:00</updated>
+    <id>https://aidan0712.github.io/ml-mnist-nn</id>
+    <content type="html">使用PyTorch构建三层全连接神经网络，完成MNIST手写数字识别任务，准确率达到93%。</content>
+  </entry>
+  <entry>
     <title>创新实验：使用 Jekyll + GitHub Pages 搭建个人博客</title>
     <link href="https://aidan0712.github.io/jekyll-blog"/>
     <updated>2026-05-29T10:00:00+08:00</updated>

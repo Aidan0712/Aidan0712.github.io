@@ -10,38 +10,97 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     :root {
-      --primary-color: #4a90d9;
-      --secondary-color: #357abd;
-      --bg-dark: #1a1a2e;
-      --bg-card: #252542;
+      --primary-color: #ff4757;
+      --secondary-color: #ff6b81;
+      --accent-color: #ffa502;
+      --bg-dark: #1a0a0a;
+      --bg-card: #2d1515;
       --text-primary: #ffffff;
       --text-secondary: rgba(255, 255, 255, 0.7);
     }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: linear-gradient(135deg, var(--bg-dark) 0%, #16213e 100%);
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #2a0f0f 50%, #1a0505 100%);
+      background-attachment: fixed;
       color: var(--text-primary);
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .spark {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      animation: sparkle 3s ease-in-out infinite;
+    }
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    .ember {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 50%;
+      animation: float-up 4s ease-out infinite;
+      box-shadow: 0 0 6px var(--accent-color), 0 0 12px var(--secondary-color);
+    }
+    @keyframes float-up {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-200px) scale(0); }
+    }
+    .flame {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(to top, rgba(255, 71, 87, 0.3), transparent);
+      animation: flicker 0.5s ease-in-out infinite alternate;
+    }
+    @keyframes flicker {
+      0% { opacity: 0.3; transform: scaleY(1); }
+      100% { opacity: 0.5; transform: scaleY(1.1); }
+    }
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
     }
     .site-header {
       text-align: center;
       padding: 6rem 2rem 4rem;
     }
     .site-title {
-      font-size: 2.5rem;
+      font-size: 3rem;
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--text-primary);
+      text-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      0% { text-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--secondary-color); }
+      100% { text-shadow: 0 0 30px var(--primary-color), 0 0 60px var(--secondary-color), 0 0 80px var(--accent-color); }
     }
     .site-title::before {
-      content: '';
+      content: '🔥';
       display: inline-block;
-      width: 30px;
-      height: 30px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      border-radius: 8px;
       margin-right: 12px;
-      vertical-align: middle;
+      animation: bounce 1s ease-in-out infinite;
     }
     .site-description {
       font-size: 1.25rem;
@@ -54,7 +113,7 @@
     .btn-primary {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       border: none;
-      padding: 12px 30px;
+      padding: 14px 32px;
       border-radius: 30px;
       font-weight: 600;
       color: white;
@@ -62,17 +121,18 @@
       text-decoration: none;
       display: inline-block;
       margin: 0 10px;
+      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
     }
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(74, 144, 217, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 71, 87, 0.6);
       color: white;
       text-decoration: none;
     }
     .btn-outline {
       background: transparent;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      padding: 12px 30px;
+      border: 2px solid rgba(255, 71, 87, 0.5);
+      padding: 14px 32px;
       border-radius: 30px;
       font-weight: 600;
       color: var(--text-primary);
@@ -82,8 +142,8 @@
       margin: 0 10px;
     }
     .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 71, 87, 0.2);
+      border-color: var(--primary-color);
       color: var(--text-primary);
       text-decoration: none;
     }
@@ -110,29 +170,31 @@
       margin-top: 0.5rem;
     }
     .post-card {
-      background: var(--bg-card);
-      border-radius: 12px;
+      background: linear-gradient(145deg, var(--bg-card), rgba(45, 21, 21, 0.8));
+      border-radius: 16px;
       padding: 2rem;
       margin-bottom: 2rem;
       transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 71, 87, 0.2);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
     .post-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-      border-color: rgba(74, 144, 217, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(255, 71, 87, 0.2);
+      border-color: rgba(255, 107, 129, 0.5);
     }
     .post-category {
       display: inline-block;
-      background: rgba(74, 144, 217, 0.2);
-      color: var(--primary-color);
-      padding: 4px 12px;
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.3), rgba(255, 107, 129, 0.2));
+      color: var(--secondary-color);
+      padding: 4px 14px;
       border-radius: 15px;
       font-size: 0.85rem;
       margin-bottom: 0.5rem;
+      border: 1px solid rgba(255, 71, 87, 0.3);
     }
     .post-title {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 600;
       color: var(--text-primary);
       margin-bottom: 0.5rem;
@@ -162,13 +224,15 @@
     .read-more:hover {
       text-decoration: none;
       transform: translateX(5px);
+      color: var(--accent-color);
     }
     footer {
       text-align: center;
       padding: 3rem 0;
       color: var(--text-secondary);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 71, 87, 0.2);
       margin-top: 4rem;
+      background: linear-gradient(to top, rgba(26, 10, 10, 0.8), transparent);
     }
     .social-icons {
       margin-top: 1rem;
@@ -176,62 +240,95 @@
     .social-icons a {
       color: var(--text-secondary);
       font-size: 1.5rem;
-      margin: 0 10px;
-      transition: color 0.3s ease;
+      margin: 0 12px;
+      transition: all 0.3s ease;
     }
     .social-icons a:hover {
       color: var(--primary-color);
+      transform: scale(1.2);
     }
     @media (max-width: 768px) {
       .site-header { padding: 4rem 1rem 3rem; }
-      .site-title { font-size: 2rem; }
+      .site-title { font-size: 2.2rem; }
       .site-description { font-size: 1.1rem; }
       .btn-primary, .btn-outline { display: block; margin: 10px auto; }
     }
   </style>
 </head>
 <body>
-  <div class="site-header">
-    <h1 class="site-title">Aidan 的博客</h1>
-    <p class="site-description">记录课程学习、实验过程与技术探索，做一个持续成长的计算机专业学生。</p>
-    <div class="mt-4">
-      <a href="/about" class="btn-primary">了解更多</a>
-      <a href="https://github.com/Aidan0712" class="btn-outline" target="_blank">
-        <i class="fab fa-github"></i> GitHub ↗
-      </a>
-    </div>
-    <div class="arrow-down">
-      <i class="fas fa-chevron-down text-white-50" style="font-size: 2rem;"></i>
-    </div>
+  <div class="fireworks">
+    <div class="spark" style="top: 10%; left: 15%; animation-delay: 0s; background: #ff4757;"></div>
+    <div class="spark" style="top: 20%; left: 80%; animation-delay: 0.5s; background: #ffa502;"></div>
+    <div class="spark" style="top: 5%; left: 50%; animation-delay: 1s; background: #ff6b81;"></div>
+    <div class="spark" style="top: 15%; left: 30%; animation-delay: 1.5s; background: #ff4757;"></div>
+    <div class="spark" style="top: 8%; left: 70%; animation-delay: 2s; background: #ffa502;"></div>
+    <div class="spark" style="top: 25%; left: 10%; animation-delay: 0.3s; background: #ff6b81;"></div>
+    <div class="spark" style="top: 12%; left: 90%; animation-delay: 0.8s; background: #ff4757;"></div>
+    <div class="spark" style="top: 18%; left: 45%; animation-delay: 1.3s; background: #ffa502;"></div>
+    <div class="ember" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="ember" style="left: 25%; animation-delay: 0.8s;"></div>
+    <div class="ember" style="left: 40%; animation-delay: 1.6s;"></div>
+    <div class="ember" style="left: 55%; animation-delay: 2.4s;"></div>
+    <div class="ember" style="left: 70%; animation-delay: 0.4s;"></div>
+    <div class="ember" style="left: 85%; animation-delay: 1.2s;"></div>
+    <div class="ember" style="left: 95%; animation-delay: 2s;"></div>
+    <div class="flame"></div>
   </div>
 
-  <div class="container">
-    <div class="section-title">
-      <h2>最新文章</h2>
-      <p>分享学习笔记与实验心得</p>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <article class="post-card">
-          <span class="post-category">实验记录</span>
-          <h3 class="post-title"><a href="/jekyll-blog" style="color: inherit; text-decoration: none;">创新实验：使用 Jekyll + GitHub Pages 搭建个人博客</a></h3>
-          <div class="post-meta">
-            <i class="far fa-calendar"></i> 2026年05月29日
-          </div>
-          <p class="post-excerpt">这是创新实验第13周的 Jekyll 收尾任务，目标是将 Jekyll 项目推送到 GitHub，并通过 GitHub Pages 实现公网访问。</p>
-          <a href="/jekyll-blog" class="read-more">阅读全文 →</a>
-        </article>
+  <div class="content-wrapper">
+    <div class="site-header">
+      <h1 class="site-title">Aidan 的博客</h1>
+      <p class="site-description">记录课程学习、实验过程与技术探索，做一个持续成长的计算机专业学生。🔥</p>
+      <div class="mt-4">
+        <a href="/about" class="btn-primary">🚀 了解更多</a>
+        <a href="https://github.com/Aidan0712" class="btn-outline" target="_blank">
+          <i class="fab fa-github"></i> GitHub ↗
+        </a>
+      </div>
+      <div class="arrow-down">
+        <i class="fas fa-chevron-down" style="font-size: 2rem; color: var(--primary-color);"></i>
       </div>
     </div>
-  </div>
 
-  <footer>
-    <p>&copy; 2026 Aidan. 做一个持续成长的计算机专业学生。</p>
-    <div class="social-icons">
-      <a href="https://github.com/Aidan0712" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://twitter.com/aidan0712" target="_blank"><i class="fab fa-twitter"></i></a>
+    <div class="container">
+      <div class="section-title">
+        <h2>✨ 最新文章</h2>
+        <p>分享学习笔记与实验心得</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <article class="post-card">
+            <span class="post-category">🔥 实验记录</span>
+            <h3 class="post-title"><a href="/ml-mnist-nn" style="color: inherit; text-decoration: none;">机器学习实验：前馈神经网络实现MNIST手写数字识别</a></h3>
+            <div class="post-meta">
+              <i class="far fa-calendar"></i> 2026年04月27日
+            </div>
+            <p class="post-excerpt">使用PyTorch构建三层全连接神经网络，完成MNIST手写数字识别任务，准确率达到93%。</p>
+            <a href="/ml-mnist-nn" class="read-more">阅读全文 →</a>
+          </article>
+        </div>
+        <div class="col-md-12">
+          <article class="post-card">
+            <span class="post-category">🚀 实验记录</span>
+            <h3 class="post-title"><a href="/jekyll-blog" style="color: inherit; text-decoration: none;">创新实验：使用 Jekyll + GitHub Pages 搭建个人博客</a></h3>
+            <div class="post-meta">
+              <i class="far fa-calendar"></i> 2026年05月29日
+            </div>
+            <p class="post-excerpt">这是创新实验第13周的 Jekyll 收尾任务，目标是将 Jekyll 项目推送到 GitHub，并通过 GitHub Pages 实现公网访问。</p>
+            <a href="/jekyll-blog" class="read-more">阅读全文 →</a>
+          </article>
+        </div>
+      </div>
     </div>
-  </footer>
+
+    <footer>
+      <p>🎸 用热爱点燃代码的热情 | 做一个持续成长的计算机专业学生</p>
+      <div class="social-icons">
+        <a href="https://github.com/Aidan0712" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com/aidan0712" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
